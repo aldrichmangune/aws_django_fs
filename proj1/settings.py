@@ -29,14 +29,14 @@ ALLOWED_HOSTS = ['aldrichmangune.com','localhost']
 
 AWS_ACCESS_KEY_ID = 'AKIA32J2TE46OH5PZX7F'
 AWS_SECRET_ACCESS_KEY = '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'
-#AWS_STORAGE_BUCKET_NAME = 'sibtc-static'
-#AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_STORAGE_BUCKET_NAME = 'cf-simple-s3-origin-cloudfrontfors3-812408579900'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_CUSTOM_DOMAIN = 'd3vrc7wvlj31zm.cloudfront.net'
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 
-DEFAULT_FILE_STORAGE = 'mysite.storage_backends.MediaStorage'
+DEFAULT_FILE_STORAGE = 'proj1.storage_backends.MediaStorage'
 
 """ AWS_LOCATION = 'static'
 

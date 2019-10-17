@@ -25,3 +25,14 @@ img {
     color: white;
     text-decoration: none ;
 }
+.divider{
+    width:5px;
+    height:auto;
+    display:inline-block;
+}
+table.style1 {
+    width: 100%;
+}
+.files tr:nth-child(even) {
+    background-color: #3f3f3f;
+}

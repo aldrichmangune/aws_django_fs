@@ -1,28 +1,41 @@
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <h4 class="text-center"> Logged in as {{ user.username }} </h4>
+  <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Submit</button>
   </form>
+</head>
   
-  <table>
-    <thead>
+<table class="style1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Uploaded at</th>
+      <th>Uploaded by</th>
+      <th>Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s3file in s3files %}
       <tr>
-        <th>Name</th>
-        <th>Uploaded at</th>
-        <th>Size</th>
+        <td><a href="{{ s3file.upload.url }}" target="_blank">{{ s3file.upload.name }}</a></td>
+        <td>{{ s3file.uploaded_at }}</td>
+        <td>{{ s3file.user }}</td>
+        <td>{{ s3file.upload.size|filesizeformat }}</td>
       </tr>
-    </thead>
-    <tbody>
-      {% for s3file in s3files %}
-        <tr>
-          <td><a href="{{ s3file.upload.url }}" target="_blank">{{ s3file.upload.name }}</a></td>
-          <td>{{ s3file.uploaded_at }}</td>
-          <td>{{ s3file.upload.size|filesizeformat }}</td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="3">No data.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {% empty %}
+      <tr>
+        <td colspan="3">No data.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<button class="btn btn-danger  mb-2">
+  <a href="{% url 'logout' %}">Logout</a>
+</button>

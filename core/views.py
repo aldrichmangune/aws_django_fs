@@ -13,8 +13,12 @@ from .models import S3File
 
 class S3FileCreateView(CreateView):
     model = S3File
-    fields = ['upload', ]
+    fields = ['upload', 'description']
     success_url = reverse_lazy('files')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(S3FileCreateView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
