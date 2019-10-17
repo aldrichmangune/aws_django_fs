@@ -25,7 +25,7 @@ SECRET_KEY = '_h%=3r!lwfi_x_37!h#woh)5+z8nz_))1gd#^j*#2=k!_@tu3k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aldrichmangune.com']
+ALLOWED_HOSTS = ['aldrichmangune.com','localhost']
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -75,8 +77,12 @@ WSGI_APPLICATION = 'proj1.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test',
+        'USER': 'admin',
+        'PASSWORD': 'Blackwid0w',
+        'HOST': 'test-django.cimx4ui6y83z.us-west-1.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
@@ -99,6 +105,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+]
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'login'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '2468101640181492'        # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '7eeda81d335080f157dc429115a3454f'  # App Secret
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '382574072553-8al15naprhdf20dlt7c543c9poal1fqc.apps.googleusercontent.com'         #Client ID
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'KS2dTBL6nFpCNkdHHt6GRQHv'  #Client SECRET
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = '78ju2p8vbxonm0'         #Client ID
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = 'KNZ1Ni4B0HRQ5u7l'  #Client Secret
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_basicprofile', 'r_emailaddress']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['email-address', 'formatted-name', 'public-profile-url', 'picture-url']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [
+    ('id', 'id'),
+    ('formattedName', 'name'),
+    ('emailAddress', 'email_address'),
+    ('pictureUrl', 'picture_url'),
+    ('publicProfileUrl', 'profile_url'),
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
