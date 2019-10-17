@@ -1,10 +1,38 @@
- <!-- templates/login.html -->
+<!-- templates/login.html -->
 
- {% extends 'base.html' %}
- {% block title %} Sign in {% endblock %}
- {% block content %}
- <div class="row">
-    
+{% extends 'base.html' %}
+<head>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(function() {
+                $( "#some_flag" ).dialog({
+                    modal: true,
+                    closeOnEscape: false,
+                    dialogClass: "no-close",
+                    resizable: false,
+                    draggable: false,
+                    width: 600,
+                    buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                    ]
+                });
+            });
+        });
+    </script>
+</head>
+{% block title %} Sign in {% endblock %}
+{% block content %}
+{% if user_taken %}
+    <div id="user_taken" title="Username Taken">
+        <p>Username is already taken</p>
+    </div>
+{% endif %}
+<div class="row">
     <div class="col-md-8 mx-auto social-container my-2 order-md-1">
         <h2>Register</h2>
         <div class="signup-form">
@@ -16,6 +44,6 @@
             </form>
         </div>
     </div>
- </div>
- </div>
- {% endblock %}
+</div>
+</div>
+{% endblock %}

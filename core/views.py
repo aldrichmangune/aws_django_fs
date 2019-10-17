@@ -1,10 +1,26 @@
+from boto.s3.connection import S3Connection
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+
 from .forms import UserForm, LoginForm
+from .models import S3File
+
+class S3FileCreateView(CreateView):
+    model = S3File
+    fields = ['upload', ]
+    success_url = reverse_lazy('files')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        s3files = S3File.objects.all()
+        context['s3files'] = s3files
+        return context
 
 # Create your views here.
 def login(request):
@@ -20,7 +36,7 @@ def login(request):
                     auth_login(request, user)
                     #return HttpResponse('Authenticated ' \
                     #       'successfully')
-                    return HttpResponseRedirect('/home/')
+                    return HttpResponseRedirect('/')
                 else:
                     return HttpResponse('Disabled account')
             else:
@@ -35,6 +51,10 @@ def signup(request):
         if form.is_valid():
             try:
                 user_data = form.cleaned_data
+                if User.objects.filter(username=user_data['user_name']).exists():
+                    form = UserForm()
+                    return render(request, 'signup.html', {'user_taken': True, 'form': form})
+
                 user = User.objects.create_user(
                     username=user_data['user_name'],
                     password=user_data['password'],
@@ -43,7 +63,7 @@ def signup(request):
                     email=user_data['email'])
                 return HttpResponseRedirect('/login/')
             except Exception as e:
-                return e
+                return HttpResponse(e)
 
     else:
         form = UserForm()
