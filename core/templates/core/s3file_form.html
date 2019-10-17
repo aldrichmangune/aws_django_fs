@@ -1,0 +1,28 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Uploaded at</th>
+        <th>Size</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s3file in s3files %}
+        <tr>
+          <td><a href="{{ s3file.upload.url }}" target="_blank">{{ s3file.upload.name }}</a></td>
+          <td>{{ s3file.uploaded_at }}</td>
+          <td>{{ s3file.upload.size|filesizeformat }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3">No data.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
