@@ -26,4 +26,5 @@ urlpatterns = [
     path('social-auth/', include('social_django.urls', namespace="social")),
     path("", views.home, name="home"),
     path('files', views.S3FileCreateView.as_view(), name='files')
+    path('files/delete', views.delete_s3file, name='delete')
 ]

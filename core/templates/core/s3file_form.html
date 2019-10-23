@@ -18,6 +18,7 @@
       <th>Uploaded at</th>
       <th>Uploaded by</th>
       <th>Size</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -27,6 +28,11 @@
         <td>{{ s3file.uploaded_at }}</td>
         <td>{{ s3file.user }}</td>
         <td>{{ s3file.upload.size|filesizeformat }}</td>
+        <td><form id="file_id" method="post" action="/">
+          {% csrf_token %}
+          <input type="hidden" name="s3file_id" value="{{ s3file.id }}" />
+          <a href="{% url 'delete' %}">Delete</a>
+      </form></td>
       </tr>
     {% empty %}
       <tr>

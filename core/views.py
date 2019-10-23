@@ -1,4 +1,5 @@
 from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -25,6 +26,13 @@ class S3FileCreateView(CreateView):
         s3files = S3File.objects.all()
         context['s3files'] = s3files
         return context
+
+def delete_s3file(request):
+    s3file_id = request.POST['s3file_id']
+    s3file = s3file.objects.get(id = s3file_id)
+    s3file.upload.delete(save=False)
+    s3file.delete()
+    return Response("s3file Deleted!", status=status.HTTP_200_OK)
 
 # Create your views here.
 def login(request):
